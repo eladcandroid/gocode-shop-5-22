@@ -1,9 +1,13 @@
-function Todo({ id, title, removeTodo }) {
-  console.log("Todo render");
+import { useContext } from "react";
+import TodoContext from "../../contexts/TodoContext";
+
+function Todo({ id, title }) {
+  const { removeTodoShuki } = useContext(TodoContext);
+
   return (
     <div>
       {title}
-      <button onClick={() => removeTodo(id)}>Remove</button>
+      <button onClick={() => removeTodoShuki(id)}>Remove</button>
     </div>
   );
 }

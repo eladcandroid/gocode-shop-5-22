@@ -1,26 +1,32 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
+// import Counter from "./components/Counter";
+// import ShowTextButton from "./components/ShowTextButton";
 import Todos from "./components/Todos/Todos";
-
+import TodoContext from "./contexts/TodoContext";
 function App() {
   console.log("App");
-  const [todosList, setTodosList] = useState([
-    {
-      id: 1,
-      title: "Wash the dishes",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "Do H.W",
-      completed: false,
-    },
-    {
-      id: 3,
-      title: "Walk the dog",
-      completed: false,
-    },
-  ]);
+
+  const shukiRef = useRef(0);
+  // let shukiRef = 0;
+
+  console.log("input", shukiRef);
+  // const [count, setCount] = useState(10);
+
+  const [todosList, setTodosList] = useState([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/todos")
+      .then((res) => res.json())
+      .then((todos) => setTodosList(todos));
+  }, []);
+
+  useEffect(() => {
+    shukiRef.current++;
+    // shukiRef++;
+    console.log("shukiRef", shukiRef);
+    // inputRef.current.focus();
+  }, [todosList]);
 
   function removeTodo(id) {
     const newTodos = todosList.filter((todo) => todo.id !== id);
@@ -46,12 +52,14 @@ function App() {
 
   return (
     <div className="App">
+      {/* <Counter /> */}
+      {/* <ShowTextButton /> */}
+      {/* ref={inputRef} */}
       <input
         type="text"
         onChange={(e) => {
           // console.log("my value", shuki.target.value);
           newTitle = e.target.value;
-          console.log("newTitle", newTitle);
         }}
       />
       <button
@@ -61,7 +69,11 @@ function App() {
       >
         Add todo
       </button>
-      <Todos todos={todosList} removeTodo={removeTodo} />
+      <TodoContext.Provider
+        value={{ removeTodoShuki: removeTodo, todos: todosList }}
+      >
+        <Todos />
+      </TodoContext.Provider>
     </div>
   );
 }
