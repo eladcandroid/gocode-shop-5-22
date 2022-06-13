@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import TodoContext from "../../contexts/TodoContext";
 
 function Todo({ id, title }) {
@@ -6,7 +7,7 @@ function Todo({ id, title }) {
 
   return (
     <div>
-      {title}
+      <Link to={`/todos/${id}`}>{title}</Link>
       <button onClick={() => removeTodoShuki(id)}>Remove</button>
     </div>
   );

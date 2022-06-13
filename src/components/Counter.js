@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function Counter() {
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(0);
   const [color, setColor] = useState("blue");
 
   useEffect(() => console.log("AFTER FIRST RENDER count", count), [count]);
